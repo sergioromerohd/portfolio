@@ -75,9 +75,9 @@ export default function Hero() {
     const draw = () => {
       // Professional gradient background
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, "rgba(15, 23, 42, 0.95)");
-      gradient.addColorStop(0.5, "rgba(30, 41, 59, 0.8)");
-      gradient.addColorStop(1, "rgba(15, 23, 42, 0.95)");
+      gradient.addColorStop(0, "rgba(0, 0, 0, 0.95)");
+      gradient.addColorStop(0.5, "rgba(17, 24, 39, 0.8)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.95)");
       
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -163,30 +163,34 @@ export default function Hero() {
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900" />
       
       {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {typeof window !== "undefined" && [...Array(15)].map((_, i) => (
+        {typeof window !== "undefined" && [...Array(30)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ 
               x: Math.random() * (window?.innerWidth || 1200),
-              y: Math.random() * (window?.innerHeight || 800),
+              y: -20,
               scale: 0
             }}
             animate={{ 
-              y: [null, Math.random() * -100 - 50],
-              scale: [0, 1, 0],
-              rotate: [0, 180]
+              y: (window?.innerHeight || 800) + 20,
+              scale: [0, 1, 1, 0],
+              rotate: [0, 360],
+              x: [
+                null, 
+                Math.random() * (window?.innerWidth || 1200)
+              ]
             }}
             transition={{
-              duration: Math.random() * 3 + 4,
+              duration: Math.random() * 8 + 6,
               repeat: Infinity,
-              delay: Math.random() * 2,
-              ease: "easeInOut"
+              delay: Math.random() * 5,
+              ease: "linear"
             }}
-            className="absolute w-2 h-2 rounded-full"
+            className="absolute w-1 h-1 rounded-full"
             style={{ backgroundColor: "var(--primary-gold)" }}
           />
         ))}

@@ -90,7 +90,7 @@ export default function About() {
                     className="relative overflow-hidden"
                   >
                     <Image
-                      src="/cacara.png"
+                      src="/SergioRomero.jpg"
                       alt="Sergio Romero"
                       width={600}
                       height={600}
@@ -209,7 +209,7 @@ export default function About() {
           {[
             { value: "3+", label: "Años de experiencia" },
             { value: "15+", label: "Proyectos completados" },
-            { value: "5+", label: "Tecnologías dominadas" },
+            { value: "8+", label: "Tecnologías dominadas" },
             { value: "100%", label: "Dedicación" }
           ].map((stat, index) => (
             <motion.div

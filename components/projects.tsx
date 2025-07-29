@@ -131,9 +131,16 @@ export default function Projects() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            Una selección de mis trabajos más recientes y significativos, desde aplicaciones web hasta soluciones móviles innovadoras
+            Una selección de mis trabajos más recientes y significativos, desde aplicaciones web hasta soluciones móviles innovadoras.
           </motion.p>
-        </div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+          >
+             Destacar que la mayoria no son de codigo abierto, para cualquier consulta o ver más detalles, no dudes en contactarme.
+          </motion.p>        </div>
 
         {/* Projects Grid */}
         <motion.div

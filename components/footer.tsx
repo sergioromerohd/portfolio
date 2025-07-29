@@ -140,47 +140,7 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* Social Links & Back to Top */}
-          <div className="flex flex-col sm:flex-row justify-between items-center mt-12 pt-8 border-t border-gray-700">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="flex items-center gap-4 mb-4 sm:mb-0"
-            >
-              <span className="text-gray-400 text-sm">Sígueme en:</span>
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`p-2 rounded-full glass text-gray-400 ${social.color} transition-all duration-300`}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <social.icon className="w-4 h-4" />
-                  <span className="sr-only">{social.label}</span>
-                </motion.a>
-              ))}
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-            >
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="rounded-full border-gray-600 text-gray-400 hover:text-white hover:border-[var(--primary-gold)] hover:bg-[var(--primary-gold)]/10"
-                onClick={scrollToTop}
-              >
-                <ArrowUp className="w-4 h-4 mr-2" />
-                Volver arriba
-              </Button>
-            </motion.div>
-          </div>
+         
         </div>
 
         {/* Bottom Bar */}
@@ -193,22 +153,13 @@ export default function Footer() {
               className="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-400"
             >
               <div className="flex items-center gap-2 mb-2 sm:mb-0">
-                <span>© {new Date().getFullYear()} Sergio Romero.</span>
-                <span>Hecho con</span>
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Heart className="w-4 h-4 fill-red-500 text-red-500" />
-                </motion.div>
-                <span>y</span>
-                <Code2 className="w-4 h-4" style={{ color: "var(--primary-gold)" }} />
+                
               </div>
               
               <div className="flex items-center gap-4 text-xs">
-                <span>Todos los derechos reservados</span>
+                <span>Uso de los datos de forma comercial no permitido</span>
                 <span className="w-1 h-1 rounded-full bg-gray-600" />
-                <span>Portfolio 2025</span>
+                <span>Sergio Romero</span>
               </div>
             </motion.div>
           </div>

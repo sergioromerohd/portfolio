@@ -196,17 +196,8 @@ export default function Skills() {
                   </div>
                 </motion.div>
 
-                {/* Hover overlay */}
-                <AnimatePresence>
-                  {hoveredSkill === index && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${skill.color} opacity-5 pointer-events-none`}
-                    />
-                  )}
-                </AnimatePresence>
+                {/* Hover overlay - Nearly invisible */}
+                
               </div>
             </motion.div>
           ))}
