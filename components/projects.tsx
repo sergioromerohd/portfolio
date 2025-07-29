@@ -15,6 +15,17 @@ export default function Projects() {
 
   const projects = [
     {
+      title: "ACTUA 2.0",
+      subtitle: "Plataforma de Actas De mediciones Sonoras",
+      description: "plataforma enfocada en el uso policial y judicial para la gestión de actas de mediciones sonoras, permitiendo la creación, edición y almacenamiento seguro de actas digitales.",
+      image: "/dbbasico.png",
+      tags: ["React", "Node.js", "PostgreSQL", "bruel", "cesva"],
+      demoUrl: "https://menu-qr-lac.vercel.app/",
+      repoUrl: "#",
+      featured: true,
+      status: "En Desarrollo"
+    },
+    {
       title: "Menu QR Negocio",
       subtitle: "Plataforma de Gestión Digital",
       description: "Una plataforma completa para dar de alta y gestionar menús digitales QR para restaurantes y negocios, permitiendo gestión de pedidos y pagos en línea completamente configurable por el usuario.",
@@ -40,7 +51,7 @@ export default function Projects() {
       title: "Meta ADS IA Reporter",
       subtitle: "Automatización con Inteligencia Artificial",
       description: "Herramienta de automatización para reportes de campañas publicitarias fraudulentas en Facebook Ads, utilizando IA para detectar patrones sospechosos y generar reportes automáticos.",
-      image: "https://sdmntprukwest.oaiusercontent.com/files/00000000-b1ac-6243-bdd0-bdd0d057bc72/raw?se=2025-05-05T12%3A01%3A29Z&sp=r&sv=2024-08-04&sr=b&scid=9dfe50a3-006b-5b6a-94a5-2f1d87320dd2&skoid=54ae6e2b-352e-4235-bc96-afa2512cc978&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-04T18%3A37%3A10Z&ske=2025-05-05T18%3A37%3A10Z&sks=b&skv=2024-08-04&sig=0sePtkFSdy5xMZKEwv1i%2Bk0TEgSeZJhRj4y4Xhm1%2B8o%3D",
+      image: "/phising.webp",
       tags: ["Python", "SQLite", "Selenium", "Machine Learning", "AI"],
       demoUrl: "#",
       repoUrl: "#",
