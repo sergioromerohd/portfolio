@@ -1,9 +1,9 @@
 "use client"
 
-import { useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, useInView, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github, Play, Info, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,34 +11,41 @@ import { Badge } from "@/components/ui/badge"
 export default function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
 
   const projects = [
     {
       title: "Menu QR Negocio",
-      description:
-        "Una plataforma para dar de alta y gestionar menús digitales QR para restaurantes y negocios, permitiendo gestionar pedidos y pagos en línea, configurable por el usuario.",
+      subtitle: "Plataforma de Gestión Digital",
+      description: "Una plataforma completa para dar de alta y gestionar menús digitales QR para restaurantes y negocios, permitiendo gestión de pedidos y pagos en línea completamente configurable por el usuario.",
       image: "https://sdmntpritalynorth.oaiusercontent.com/files/00000000-c91c-6246-8ac1-7188df4ede43/raw?se=2025-05-05T11%3A55%3A14Z&sp=r&sv=2024-08-04&sr=b&scid=2f6650cc-b6ea-5647-be77-024dcc37b8f7&skoid=54ae6e2b-352e-4235-bc96-afa2512cc978&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-05T06%3A20%3A54Z&ske=2025-05-06T06%3A20%3A54Z&sks=b&skv=2024-08-04&sig=76WHG3urk%2BIYhX41GhjkDOqp4Y6A1SMChf5XRXohhEk%3D",
-      tags: ["React", "Node.js", "PostgreSQL", "Tailwind CSS"],
+      tags: ["React", "Node.js", "PostgreSQL", "Tailwind CSS", "Stripe API"],
       demoUrl: "https://menu-qr-lac.vercel.app/",
       repoUrl: "#",
+      featured: true,
+      status: "En Producción"
     },
     {
       title: "Irma APP",
-      description:
-        "Aplicacion Movil bajo DBBasico para el monitoreo y mediciones de vibraciones en tiempo real o historico.",
+      subtitle: "Monitoreo IoT en Tiempo Real",
+      description: "Aplicación móvil desarrollada para el monitoreo y medición de vibraciones en tiempo real e histórico. Incluye dashboard analítico con visualización de datos y alertas inteligentes.",
       image: "/irma.png",
-      tags: ["React Native", "Node.js", "MongoDB", "MQTT"],
+      tags: ["React Native", "Node.js", "MongoDB", "MQTT", "IoT"],
       demoUrl: "#",
       repoUrl: "#",
+      featured: true,
+      status: "En Desarrollo"
     },
     {
       title: "Meta ADS IA Reporter",
-      description:
-        "automatización de reportes de campañas publicitarias fraudulentas en Facebook Ads, utilizando IA para detectar patrones y generar reportes.",
+      subtitle: "Automatización con Inteligencia Artificial",
+      description: "Herramienta de automatización para reportes de campañas publicitarias fraudulentas en Facebook Ads, utilizando IA para detectar patrones sospechosos y generar reportes automáticos.",
       image: "https://sdmntprukwest.oaiusercontent.com/files/00000000-b1ac-6243-bdd0-bdd0d057bc72/raw?se=2025-05-05T12%3A01%3A29Z&sp=r&sv=2024-08-04&sr=b&scid=9dfe50a3-006b-5b6a-94a5-2f1d87320dd2&skoid=54ae6e2b-352e-4235-bc96-afa2512cc978&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-04T18%3A37%3A10Z&ske=2025-05-05T18%3A37%3A10Z&sks=b&skv=2024-08-04&sig=0sePtkFSdy5xMZKEwv1i%2Bk0TEgSeZJhRj4y4Xhm1%2B8o%3D",
-      tags: ["python", "sqlite", "selenium", "IA"],
+      tags: ["Python", "SQLite", "Selenium", "Machine Learning", "AI"],
       demoUrl: "#",
       repoUrl: "#",
+      featured: false,
+      status: "Completado"
     },
   ]
 
@@ -47,97 +54,234 @@ export default function Projects() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
+        staggerChildren: 0.2,
       },
     },
   }
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: { 
+        duration: 0.6, 
+        ease: "easeOut" 
+      } 
+    },
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "En Producción":
+        return "bg-green-500"
+      case "En Desarrollo":
+        return "bg-blue-500"
+      case "Completado":
+        return "bg-purple-500"
+      default:
+        return "bg-gray-500"
+    }
   }
 
   return (
-    <section id="projects" className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold mb-4 text-[#FFDAB9] inline-block"
+    <section id="projects" className="py-24 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-muted/30 to-background" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6 }}
+            className="mb-6"
           >
-            Proyectos Destacados
-          </motion.h2>
+            <span 
+              className="inline-block px-6 py-3 rounded-full text-sm font-semibold mb-4"
+              style={{ 
+                backgroundColor: "var(--primary-gold)",
+                color: "white"
+              }}
+            >
+              Portfolio
+            </span>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
+              Proyectos Destacados
+            </h2>
+          </motion.div>
+          
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            Una selección de mis trabajos más recientes y significativos
+            Una selección de mis trabajos más recientes y significativos, desde aplicaciones web hasta soluciones móviles innovadoras
           </motion.p>
         </div>
 
+        {/* Projects Grid */}
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
         >
           {projects.map((project, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
-              whileHover={{ y: -10, transition: { duration: 0.2 } }}
-              className="group"
+              whileHover={{ y: -15, scale: 1.02 }}
+              onHoverStart={() => setHoveredProject(index)}
+              onHoverEnd={() => setHoveredProject(null)}
+              className="group relative"
             >
-              <Card className="overflow-hidden border-none shadow-lg h-full flex flex-col">
-                <div className="relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-end justify-center p-4">
-                    <div className="flex gap-4 mb-4">
-                      <Button
-                        size="sm"
-                        variant="default"
-                        className="rounded-full bg-[#FFDAB9] text-black hover:bg-[#FFDAB9]/80"
-                        asChild
-                      >
-                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="w-4 h-4 mr-2" />
-                          Demo
-                        </a>
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="rounded-full bg-background/80 backdrop-blur-sm"
-                        asChild
-                      >
-                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                          <Github className="w-4 h-4 mr-2" />
-                          Código
-                        </a>
-                      </Button>
+              <Card className="overflow-hidden border-none shadow-xl h-full flex flex-col bg-card/50 backdrop-blur-sm hover-lift">
+                {/* Image Container */}
+                <div className="relative overflow-hidden h-64">
+                  {/* Status Badge */}
+                  <div className="absolute top-4 left-4 z-20">
+                    <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(project.status)}`}>
+                      <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                      {project.status}
                     </div>
                   </div>
-                  <Image
-                    src={project.image || "/placeholder.svg"}
-                    alt={project.title}
-                    width={600}
-                    height={400}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+
+                  {/* Featured Badge */}
+                  {project.featured && (
+                    <div className="absolute top-4 right-4 z-20">
+                      <div className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-white bg-gradient-to-r from-yellow-500 to-orange-500">
+                        <Star className="w-3 h-3 fill-current" />
+                        Destacado
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Project Image */}
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={project.image || "/placeholder.svg"}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  </div>
+
+                  {/* Hover Actions */}
+                  <AnimatePresence>
+                    {hoveredProject === index && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute inset-0 bg-black/70 flex items-center justify-center gap-4 z-10"
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.1 }}
+                        >
+                          <Button
+                            size="sm"
+                            className="gradient-primary text-white hover:opacity-90 rounded-full shadow-lg"
+                            asChild
+                          >
+                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                              <Play className="w-4 h-4 mr-2" />
+                              Demo
+                            </a>
+                          </Button>
+                        </motion.div>
+                        
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20 rounded-full"
+                            asChild
+                          >
+                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
+                              <Github className="w-4 h-4 mr-2" />
+                              Código
+                            </a>
+                          </Button>
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <CardContent className="flex-1 flex flex-col p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4 flex-1">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mt-auto">
+
+                {/* Content */}
+                <CardContent className="flex-1 flex flex-col p-6 space-y-4">
+                  {/* Title & Subtitle */}
+                  <div>
+                    <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm font-medium" style={{ color: "var(--primary-gold)" }}>
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">
+                    {project.description}
+                  </p>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, tagIndex) => (
-                      <Badge key={tagIndex} variant="secondary" className="font-normal">
-                        {tag}
-                      </Badge>
+                      <motion.div
+                        key={tagIndex}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: tagIndex * 0.1 }}
+                      >
+                        <Badge 
+                          variant="secondary" 
+                          className="font-normal text-xs px-2 py-1 bg-muted/50 hover:bg-muted transition-colors"
+                        >
+                          {tag}
+                        </Badge>
+                      </motion.div>
                     ))}
+                  </div>
+
+                  {/* Action Buttons (Mobile) */}
+                  <div className="flex gap-2 md:hidden">
+                    <Button
+                      size="sm"
+                      className="gradient-primary text-white hover:opacity-90 rounded-full flex-1"
+                      asChild
+                    >
+                      <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Demo
+                      </a>
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full"
+                      asChild
+                    >
+                      <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4" />
+                      </a>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -145,16 +289,55 @@ export default function Projects() {
           ))}
         </motion.div>
 
+        {/* Call to Action */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          className="mt-12 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.6, delay: 1 }}
+          className="mt-16 text-center"
         >
-          <Button size="lg" variant="outline" onClick={() => window.open("https://github.com/sergioromerohd?tab=repositories", "_blank")}>
-            Ver Más Proyectos
-          </Button>
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="rounded-full px-8 py-3 font-semibold border-2 hover:bg-muted/50"
+              style={{ borderColor: "var(--primary-gold)" }}
+              onClick={() => window.open("https://github.com/sergioromerohd?tab=repositories", "_blank")}
+            >
+              <Github className="w-5 h-5 mr-2" />
+              Ver Más Proyectos en GitHub
+            </Button>
+          </motion.div>
         </motion.div>
+
+        {/* Floating Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full opacity-30"
+              style={{
+                backgroundColor: "var(--primary-gold)",
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`
+              }}
+              animate={{
+                y: [0, -50, 0],
+                opacity: [0.3, 0.8, 0.3],
+                scale: [1, 2, 1]
+              }}
+              transition={{
+                duration: 4 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 3,
+                ease: "easeInOut"
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )

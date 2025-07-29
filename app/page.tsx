@@ -6,6 +6,8 @@ import Projects from "@/components/projects"
 import Experience from "@/components/experience"
 import Contact from "@/components/contact"
 import Footer from "@/components/footer"
+import Navigation from "@/components/navigation"
+import LoadingScreen from "@/components/loading-screen"
 
 export const metadata: Metadata = {
   title: "Sergio Romero",
@@ -30,14 +32,18 @@ export const metadata: Metadata = {
 }
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Experience />
-      <Contact />
-      <Footer />
-    </main>
+    <>
+      <LoadingScreen />
+      <Navigation />
+      <main className="min-h-screen">
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Contact />
+        <Footer />
+      </main>
+    </>
   )
 }
