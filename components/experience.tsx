@@ -21,9 +21,9 @@ export default function Experience() {
       description:
         "Desarrollo integral de aplicaciones web y móviles especializadas en monitoreo IoT. Implementación de soluciones en tiempo real para medición de vibraciones industriales con dashboard analítico avanzado.",
       achievements: [
-        "Desarrollé sistema de monitoreo en tiempo real que procesó +1M de datos por día",
-        "Optimicé rendimiento de la aplicación móvil reduciendo tiempo de carga en 40%",
-        "Implementé arquitectura microservicios escalable con Docker"
+        "Desarrollé un ecosistema IoT completo con APP móvil, dashboard web y backend robusto",
+        "Implementé analisis de datos para PRL, Maquinas, y mantenimiento predictivo",
+        "Desarrollé una aplicacion para el analisis de grabaciones de sonidos, enfocada en Policias y analistas de ruidos",
       ],
       skills: ["React Native", "Node.js", "MongoDB", "MQTT", "IoT", "Docker"],
       current: true
@@ -37,11 +37,11 @@ export default function Experience() {
       description:
         "Desarrollo y diseño completo de la plataforma web orwee.io, una aplicación DeFi del ecosistema blockchain. Responsable del frontend, backend y experiencia de usuario.",
       achievements: [
-        "Diseñé y desarrollé plataforma DeFi desde cero con +500 usuarios activos",
+        "Adapte el diseño para dispositivos móviles y tablets",
         "Integré APIs blockchain para datos en tiempo real",
-        "Implementé dashboard responsivo con Tailwind CSS"
+        "Implementé funcionalidades avanzadas de portfolios y chatbots"
       ],
-      skills: ["FlutterFlow", "Node.js", "PostgreSQL", "Tailwind CSS", "Blockchain"],
+      skills: ["FlutterFlow", "supabase", "JS", "DEFI", "Blockchain"],
       current: true
     },
     {
