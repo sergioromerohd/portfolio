@@ -12,30 +12,64 @@ export default function Projects() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.1 })
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
+  const ABOUT_BASE = "https://about.dbblab.es"
 
   const projects = [
-    {
-      title: "ACTUA 2.0",
-      subtitle: "Plataforma de Actas De mediciones Sonoras",
-      description: "plataforma enfocada en el uso policial y judicial para la gestión de actas de mediciones sonoras, permitiendo la creación, edición y almacenamiento seguro de actas digitales.",
-      image: "/dbbasico.png",
-      tags: ["React", "Node.js", "PostgreSQL", "bruel", "cesva"],
-      demoUrl: "https://dbbasico.es/",
-      repoUrl: "https://dbbasico.es/",
-      featured: true,
-      status: "En Desarrollo"
-    },
-    {
-      title: "Menu QR Negocio",
-      subtitle: "Plataforma de Gestión Digital",
-      description: "Una plataforma completa para dar de alta y gestionar menús digitales QR para restaurantes y negocios, permitiendo gestión de pedidos y pagos en línea completamente configurable por el usuario.",
-      image: "/logoqr.png",
-      tags: ["React", "Node.js", "PostgreSQL", "Tailwind CSS", "Stripe API"],
-      demoUrl: "https://menu-qr-lac.vercel.app/",
-      repoUrl: "#",
-      featured: true,
-      status: "En Producción"
-    },
+     {
+    title: "ACTUA 2.0 (Landing)",
+    subtitle: "Análisis de sonometría y actas",
+    description:
+      "Landing y recursos (FAQ/Tutorial) de ACTUA 2.0 para uso técnico/policial.",
+    image: "/actua-playmobil-v2.png",
+    tags: ["Next.js", "React", "Producto"],
+    demoUrl: `${ABOUT_BASE}/actua`,
+    repoUrl: "#",
+    featured: false,
+    status: "En Producción",
+    sections: [{ label: "FAQ", url: `${ABOUT_BASE}/actua/faq` }],
+  },
+  {
+    title: "IRMA (Landing)",
+    subtitle: "Monitorización inteligente de vibraciones",
+    description:
+      "Landing de IRMA con secciones de dispositivo, FAQ y enfoque IoT.",
+    image: "/setablancaSF.png",
+    tags: ["Next.js", "React", "IoT"],
+    demoUrl: `${ABOUT_BASE}/irma`,
+    repoUrl: "#",
+    featured: false,
+    status: "En Producción",
+    sections: [
+      { label: "Dispositivo", url: `${ABOUT_BASE}/irma/dispositivo` },
+      { label: "FAQ", url: `${ABOUT_BASE}/irma/faq` },
+    ],
+  },
+  {
+    title: "CIA (Landing)",
+    subtitle: "Cursos de inspecciones acústicas",
+    description:
+      "Landing de CIA con información de niveles, metodología y FAQ.",
+    image: "/dbbasico.png",
+    tags: ["Next.js", "React", "Formación"],
+    demoUrl: `${ABOUT_BASE}/cia`,
+    repoUrl: "#",
+    featured: false,
+    status: "En Producción",
+    sections: [{ label: "FAQ", url: `${ABOUT_BASE}/cia/faq` }],
+  },
+  {
+    title: "ACTUA 2.0",
+    subtitle: "Análisis de sonometría y actas",
+    description:
+      "Plataforma web para análisis de sonometría y generación de actas técnicas/policiales automatizadas.",
+    image: "/actua.png",
+    tags: ["Next.js", "React", "Producto"],
+    demoUrl: `https://actua2.dbblab.es/`, 
+    repoUrl: "#",
+    featured: true,
+    status: "En Producción",
+    sections: [{ label: "FAQ", url: `${ABOUT_BASE}/actua/faq` }],
+  },
     {
       title: "Irma APP",
       subtitle: "Monitoreo IoT en Tiempo Real",
