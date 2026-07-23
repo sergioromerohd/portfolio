@@ -1,6 +1,7 @@
-import Image from "next/image"
+"use client"
+
 import Link from "next/link"
-import { ArrowUpRight, Github, Linkedin, Mail, Sparkles } from "lucide-react"
+import { ArrowUpRight, ChevronDown, Github, Linkedin, Mail } from "lucide-react"
 import { Terminal } from "@/components/terminal"
 import { siteConfig } from "@/lib/site"
 
@@ -12,7 +13,7 @@ const socialIcons = {
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center overflow-hidden">
+    <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       {/* Background grid */}
       <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black,transparent)]" />
 
@@ -20,7 +21,7 @@ export function Hero() {
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse [animation-delay:2s]" />
 
-      <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center pt-20 pb-16">
+      <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center">
         {/* Left: identity */}
         <div className="space-y-6 animate-fade-up">
           <div className="flex items-center gap-2 text-xs font-mono text-muted-foreground">
@@ -74,35 +75,17 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right: bento (terminal + photo) */}
-        <div className="grid gap-4 animate-fade-up [animation-delay:200ms] opacity-0">
+        {/* Right: terminal only */}
+        <div className="animate-fade-up [animation-delay:200ms] opacity-0">
           <Terminal />
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 relative aspect-square rounded-lg border border-border overflow-hidden bg-card hover:border-primary/40 transition-colors">
-              <Image
-                src="/SergioRomero.jpg"
-                alt="Sergio Romero"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 33vw, 200px"
-                priority
-              />
-            </div>
-            <div className="col-span-2 flex flex-col justify-between rounded-lg border border-border bg-card p-5 space-y-3 hover:border-primary/40 transition-colors">
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">ubicacion</p>
-                <p className="text-sm font-mono text-foreground">{siteConfig.location}</p>
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">rol</p>
-                <p className="text-sm font-mono text-foreground">Full Stack Developer</p>
-              </div>
-              <div className="flex items-center gap-2 pt-2 border-t border-border">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <p className="text-xs text-muted-foreground">AI-assisted development</p>
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+        <span className="text-xs text-muted-foreground opacity-60">scroll</span>
+        <div className="w-5 h-8 rounded-full border border-border flex items-start p-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-primary animate-scroll-dot" />
         </div>
       </div>
     </section>

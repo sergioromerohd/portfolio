@@ -66,11 +66,16 @@ const config = {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
+        "scroll-dot": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(12px)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.4s ease-out forwards",
         "caret-blink": "caret-blink 1s step-end infinite",
         "shimmer": "shimmer 3s linear infinite",
+        "scroll-dot": "scroll-dot 2s ease-in-out infinite",
       },
     },
   },
