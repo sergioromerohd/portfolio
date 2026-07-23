@@ -1,6 +1,13 @@
 import Image from "next/image"
 import { SectionHeader } from "@/components/stack"
 
+const stats = [
+  { value: "3+", label: "años exp." },
+  { value: "12+", label: "proyectos" },
+  { value: "3", label: "empresas" },
+  { value: "24/7", label: "disponible" },
+]
+
 export function About() {
   return (
     <section id="about" className="py-24 border-t border-border">
@@ -35,6 +42,20 @@ export function About() {
               </p>
             </div>
 
+            {/* Stats */}
+            <div className="grid grid-cols-4 gap-3">
+              {stats.map((s) => (
+                <div
+                  key={s.label}
+                  className="rounded-lg border border-border bg-card/80 p-3 text-center hover:border-primary/30 transition-colors"
+                >
+                  <p className="text-xl font-bold text-primary font-mono">{s.value}</p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">{s.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Quick tags */}
             <div className="grid grid-cols-2 gap-3">
               {[
                 { k: "Rol", v: "Full Stack Developer" },

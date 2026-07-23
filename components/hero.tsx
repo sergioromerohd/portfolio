@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
 import { Terminal } from "@/components/terminal"
+import { ParticleField } from "@/components/particle-field"
 import { siteConfig } from "@/lib/site"
 
 const socialIcons = {
@@ -16,6 +17,9 @@ export function Hero() {
     <section className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden">
       {/* Background grid */}
       <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black,transparent)]" />
+
+      {/* Particle network */}
+      <ParticleField />
 
       {/* Gradient orbs */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />

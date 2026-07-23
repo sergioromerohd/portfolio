@@ -8,6 +8,15 @@ const sections: { label: string; key: keyof typeof stack }[] = [
   { label: "tools", key: "tools" },
 ]
 
+// colored dot per category
+const dotColor: Record<string, string> = {
+  languages: "#facc15",
+  frontend: "#60a5fa",
+  backend: "#34d399",
+  infra: "#f472b6",
+  tools: "#a78bfa",
+}
+
 export function Stack() {
   return (
     <section id="stack" className="py-24 border-t border-border">
@@ -22,6 +31,10 @@ export function Stack() {
           {sections.map((s) => (
             <div key={s.key} className="bg-card p-6 space-y-3 hover:bg-muted/30 transition-colors">
               <div className="flex items-center gap-2">
+                <span
+                  className="w-2 h-2 rounded-full shrink-0"
+                  style={{ backgroundColor: dotColor[s.key] }}
+                />
                 <span className="text-xs font-mono text-muted-foreground">./{s.label}</span>
                 <span className="h-px flex-1 bg-border" />
               </div>

@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner"
 import { PersonJsonLd } from "@/components/json-ld"
+import { Navbar } from "@/components/navbar"
 
 const sans = Inter({
   subsets: ["latin"],
@@ -69,6 +70,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        {/* Scanline CRT overlay */}
+        <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03]"
+          style={{
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)",
+            backgroundSize: "100% 4px",
+          }}
+        />
+
         <PersonJsonLd />
         <ThemeProvider
           attribute="class"
@@ -76,6 +85,7 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
           <Toaster
             theme="dark"
