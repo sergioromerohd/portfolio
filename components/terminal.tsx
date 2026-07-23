@@ -104,7 +104,14 @@ export function Terminal() {
   // typewriter for interactive command output
   useEffect(() => {
     if (!cmdActive || cmdIdx >= cmdOutput.length) {
-      if (cmdActive && cmdIdx >= cmdOutput.length) setCmdActive(false)
+      if (cmdActive && cmdIdx >= cmdOutput.length) {
+        // persist output to userLines when done
+        setUserLines((prev) => [...prev, ...cmdOutput.map((o) => ({ type: "output" as const, text: o }))])
+        setCmdActive(false)
+        setCmdOutput([])
+        setCmdIdx(0)
+        setCmdChar(0)
+      }
       return
     }
     const line = cmdOutput[cmdIdx]
@@ -112,7 +119,6 @@ export function Terminal() {
       const t = setTimeout(() => setCmdChar((c) => c + 1), 12)
       return () => clearTimeout(t)
     }
-    // line done, move to next
     const t = setTimeout(() => { setCmdIdx((i) => i + 1); setCmdChar(0) }, 80)
     return () => clearTimeout(t)
   }, [cmdActive, cmdIdx, cmdChar, cmdOutput])
