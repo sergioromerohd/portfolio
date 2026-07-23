@@ -54,24 +54,6 @@ export function About() {
                 </div>
               ))}
             </div>
-
-            {/* Quick tags */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { k: "Rol", v: "Full Stack Developer" },
-                { k: "Ubicacion", v: "Madrid, España" },
-                { k: "Stack", v: "Next.js / Node / IoT" },
-                { k: "Intereses", v: "DeFi, Cloud, IA" },
-              ].map((item) => (
-                <div
-                  key={item.k}
-                  className="rounded-lg border border-border bg-card p-3"
-                >
-                  <p className="text-xs text-muted-foreground">{item.k}</p>
-                  <p className="text-sm font-mono text-foreground">{item.v}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
