@@ -1,0 +1,33 @@
+name: sparkling_felix
+services:
+    main_app:
+        cpu_shares: 10
+        command: []
+        deploy:
+            resources:
+                limits:
+                    memory: "268435456"
+        image: sergioromerohd/portfolio-app:latest
+        labels:
+            icon: https://icon.casaos.io/main/all/portfolio-app.png
+        network_mode: bridge
+        ports:
+            - target: 3033
+              published: "3000"
+              protocol: tcp
+        restart: unless-stopped
+networks:
+    default:
+        name: sparkling_felix_default
+x-casaos:
+    author: self
+    category: self
+    hostname: ""
+    icon: https://icon.casaos.io/main/all/portfolio-app.png
+    index: /
+    is_uncontrolled: false
+    port_map: ""
+    scheme: http
+    store_app_id: sparkling_felix
+    title:
+        custom: portfolio

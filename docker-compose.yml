@@ -1,0 +1,43 @@
+name: sparkling_felix
+services:
+    main_app:
+        cpu_shares: 10
+        build:
+            context: .
+            dockerfile: Dockerfile
+        # imagen con tag fijo para que `up -d --build` la reuse
+        image: portfolio:local
+        container_name: portfolio
+        deploy:
+            resources:
+                limits:
+                    memory: "512m"
+        labels:
+            icon: https://icon.casaos.io/main/all/portfolio-app.png
+        network_mode: bridge
+        ports:
+            - target: 3033
+              published: "3000"
+              protocol: tcp
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3033/"]
+            interval: 30s
+            timeout: 5s
+            start_period: 30s
+            retries: 3
+networks:
+    default:
+        name: sparkling_felix_default
+x-casaos:
+    author: self
+    category: self
+    hostname: ""
+    icon: https://icon.casaos.io/main/all/portfolio-app.png
+    index: /
+    is_uncontrolled: false
+    port_map: ""
+    scheme: http
+    store_app_id: sparkling_felix
+    title:
+        custom: portfolio
