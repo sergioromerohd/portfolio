@@ -1,3 +1,4 @@
+import { ScrollProgress } from "@/components/scroll-progress"
 import { Hero } from "@/components/hero"
 import { About } from "@/components/about"
 import { Stack } from "@/components/stack"
@@ -10,6 +11,7 @@ import { Footer } from "@/components/footer"
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <Hero />
       <About />
       <Stack />

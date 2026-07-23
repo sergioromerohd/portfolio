@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowUpRight, ChevronDown, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
 import { Terminal } from "@/components/terminal"
 import { siteConfig } from "@/lib/site"
 

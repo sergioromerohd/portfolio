@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Mail, MessageCircle, MapPin, Phone, Send } from "lucide-react"
+import { Mail, MessageCircle, MapPin, Phone, Send, Copy, Check } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -16,7 +16,8 @@ const methods = [
     icon: Mail,
     label: "Email",
     value: siteConfig.email,
-    href: `mailto:${siteConfig.email}`,
+    href: undefined,
+    action: "copy",
   },
   {
     icon: MessageCircle,
@@ -40,6 +41,7 @@ const methods = [
 
 export function Contact() {
   const [submitting, setSubmitting] = useState(false)
+  const [copied, setCopied] = useState<string | null>(null)
   const [data, setData] = useState({ name: "", email: "", subject: "", message: "" })
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -61,8 +63,21 @@ export function Contact() {
     }, 600)
   }
 
+  const handleMethodClick = (m: (typeof methods)[number]) => {
+    if (!m.href) {
+      navigator.clipboard.writeText(m.value)
+      setCopied(m.label)
+      toast.success("Email copiado al portapapeles")
+      setTimeout(() => setCopied(null), 2000)
+    } else if (m.href?.startsWith("http")) {
+      window.open(m.href, "_blank", "noopener,noreferrer")
+    } else if (m.href) {
+      window.location.href = m.href
+    }
+  }
+
   return (
-    <section id="contact" className="py-24 border-t border-border">
+    <section id="contact" className="py-24 border-t border-border bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent">
       <div className="container">
         <SectionHeader
           tag="// 04"
@@ -75,16 +90,15 @@ export function Contact() {
           <div className="lg:col-span-2 space-y-2">
             {methods.map((m) => {
               const Icon = m.icon
+              const isCopied = copied === m.label
               return (
-                <a
+                <button
                   key={m.label}
-                  href={m.href}
-                  target={m.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="bento flex items-center gap-3 !p-4 hover:!border-primary/40"
+                  onClick={() => handleMethodClick(m)}
+                  className="bento flex items-center gap-3 !p-4 hover:!border-primary/40 w-full text-left cursor-pointer hover:-translate-y-0.5 transition-all duration-300 hover:shadow-[0_0_20px_-8px] hover:shadow-primary/20"
                 >
                   <div className="p-2 rounded-md bg-muted text-primary">
-                    <Icon className="w-4 h-4" />
+                    {isCopied ? <Check className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-mono text-muted-foreground">
@@ -94,13 +108,16 @@ export function Contact() {
                       {m.value}
                     </div>
                   </div>
-                </a>
+                  {!m.href && !isCopied && (
+                    <Copy className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  )}
+                </button>
               )
             })}
           </div>
 
           {/* Form */}
-          <Card className="lg:col-span-3 bg-card border-border">
+          <Card className="lg:col-span-3 bg-card/80 backdrop-blur-sm border-border hover:border-primary/20 transition-colors duration-300">
             <CardContent className="p-6">
               <form onSubmit={onSubmit} className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -150,7 +167,7 @@ export function Contact() {
                 <Button
                   type="submit"
                   disabled={submitting}
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all hover:shadow-[0_0_20px_-4px] hover:shadow-primary/50"
                 >
                   {submitting ? (
                     "Abriendo WhatsApp…"

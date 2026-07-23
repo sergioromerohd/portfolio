@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/stack"
 
 export function AIWorkflow() {
   return (
-    <section id="ai-workflow" className="py-24 border-t border-border">
+    <section id="ai-workflow" className="py-24 border-t border-border bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent">
       <div className="container">
         <SectionHeader
           tag="// 05"
@@ -34,7 +34,7 @@ export function AIWorkflow() {
           ].map((item) => (
             <div
               key={item.title}
-              className="rounded-lg border border-border bg-card p-6 space-y-4 hover:border-primary/40 transition-colors hover:shadow-[0_0_40px_-12px] hover:shadow-primary/20"
+              className="rounded-lg border border-border bg-card/80 backdrop-blur-sm p-6 space-y-4 hover:border-primary/40 transition-all duration-300 hover:shadow-[0_0_40px_-12px] hover:shadow-primary/20 hover:-translate-y-1"
             >
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />

@@ -9,12 +9,12 @@ export function Experience() {
         <SectionHeader
           tag="// 03"
           title="Experiencia"
-          subtitle="Lo que he hecho profesionalmente. Lo importante: productos en producción, no demos."
+          subtitle="Lo que he hecho profesionalmente. Lo importante: productos en produccion, no demos."
         />
 
         <div className="space-y-0 max-w-3xl">
           {experiences.map((e, i) => (
-            <div key={i} className="timeline-item">
+            <div key={i} className="timeline-item group">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h3 className="text-lg font-semibold">{e.role}</h3>
                 <span className="text-muted-foreground">@</span>
@@ -38,7 +38,7 @@ export function Experience() {
               </ul>
               <div className="flex flex-wrap gap-1.5 mt-3">
                 {e.tech.map((t) => (
-                  <span key={t} className="chip text-[10px]">
+                  <span key={t} className="chip text-[10px] group-hover:border-primary/30 transition-colors">
                     {t}
                   </span>
                 ))}
