@@ -20,13 +20,11 @@ const INTRO = [
   { type: "input" as const, text: "./contact.sh" },
   { type: "output" as const, text: `→ ${siteConfig.url}#contact` },
   { type: "output" as const, text: "" },
-  { type: "output" as const, text: "click en la terminal y escribe 'help' para jugar." },
+  { type: "output" as const, text: "click en la terminal y escribe 'help' para interactuar." },
 ]
 
 const COMMANDS: Record<string, () => string[]> = {
-  help: () => [
-    "comandos: whoami | stack | projects | contact | cv | about | clear | social",
-  ],
+  help: () => ["comandos: whoami | stack | projects | contact | cv | about | clear | social"],
   whoami: () => ["sergio romero — full stack developer · madrid · 3+ años exp"],
   stack: () => [
     "ts · js · python · sql",
@@ -72,6 +70,7 @@ export function Terminal() {
   const bodyRef = useRef<HTMLDivElement>(null)
   const historyRef = useRef<string[]>([])
   const histIdx = useRef(-1)
+  const started = useRef(false)
 
   // blink cursor
   useEffect(() => {
@@ -84,83 +83,61 @@ export function Terminal() {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines])
 
-  // typewriter
+  // typewriter - runs once only
   useEffect(() => {
-    let active = true
-    let charTimer: number | undefined
-    let lineTimer: number | undefined
+    if (started.current) return
+    started.current = true
+
     let idx = 0
+    let timer: number | undefined
 
     const typeLine = () => {
-      if (!active || idx >= INTRO.length) {
-        if (active) setMode("idle")
-        return
-      }
+      if (idx >= INTRO.length) { setMode("idle"); return }
       const line = INTRO[idx]
-      const visible = line.type === "input" ? `${PROMPT} ${line.text}` : line.text
-
+      const text = line.type === "input" ? `${PROMPT} ${line.text}` : line.text
       let i = 0
       const tick = () => {
-        if (!active) return
         setLines((prev) => {
           const copy = [...prev]
-          copy[idx] = { type: line.type, text: visible.slice(0, i + 1) }
+          copy[idx] = { type: line.type, text: text.slice(0, i + 1) }
           return copy
         })
         i++
-        if (i >= visible.length) {
+        if (i >= text.length) {
           idx++
-          const delay = line.type === "input" ? 550 : 160
-          lineTimer = window.setTimeout(typeLine, delay)
+          timer = window.setTimeout(typeLine, line.type === "input" ? 550 : 160)
         } else {
-          charTimer = window.setTimeout(tick, 18)
+          timer = window.setTimeout(tick, 18)
         }
       }
       tick()
     }
 
     typeLine()
-
-    return () => {
-      active = false
-      if (charTimer) clearTimeout(charTimer)
-      if (lineTimer) clearTimeout(lineTimer)
-    }
+    return () => { if (timer) clearTimeout(timer) }
   }, [])
 
   // activate on click
   const activate = () => {
-    if (mode === "idle") {
-      setMode("active")
-      setTimeout(() => inputRef.current?.focus(), 60)
-    }
+    if (mode === "idle") { setMode("active"); setTimeout(() => inputRef.current?.focus(), 60) }
   }
 
   const run = (cmd: string) => {
     const t = cmd.trim()
     if (!t) return
-
     historyRef.current.push(t)
     histIdx.current = -1
-
     setLines((prev) => [...prev, { type: "input", text: `${PROMPT} ${t}` }])
-
-    const handler = COMMANDS[t.toLowerCase()]
-    if (handler) {
+    const fn = COMMANDS[t.toLowerCase()]
+    if (fn) {
       if (t === "clear") { setLines([]); setInput(""); return }
-      const out = handler()
-      setLines((prev) => [...prev, ...out.map((o) => ({ type: "output" as const, text: o }))])
+      setLines((prev) => [...prev, ...fn().map((o) => ({ type: "output" as const, text: o }))])
     } else if (t === "sudo") {
       setLines((prev) => [...prev, { type: "output", text: "nice try. permission denied." }])
     } else if (t === "exit") {
-      setLines([])
-      setMode("idle")
+      setLines([]); setMode("idle")
     } else {
-      setLines((prev) => [
-        ...prev,
-        { type: "output", text: `zsh: command not found: ${t}` },
-        { type: "output", text: "prueba 'help'" },
-      ])
+      setLines((prev) => [...prev, { type: "output", text: `zsh: command not found: ${t}` }, { type: "output", text: "prueba 'help'" }])
     }
     setInput("")
   }
@@ -183,40 +160,25 @@ export function Terminal() {
 
   return (
     <div className="rounded-lg border border-border bg-card shadow-2xl shadow-primary/5 overflow-hidden" onClick={activate}>
-      {/* title bar */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/30">
         <span className="w-3 h-3 rounded-full bg-red-500/70" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
         <span className="w-3 h-3 rounded-full bg-emerald-500/70" />
         <span className="ml-3 text-xs font-mono text-muted-foreground">
-          sergio@portfolio ~ /home
-          {mode === "active" && <span className="text-primary ml-2">● LIVE</span>}
+          sergio@portfolio ~ /home{mode === "active" && <span className="text-primary ml-2">● LIVE</span>}
         </span>
       </div>
-
-      {/* body */}
       <div ref={bodyRef} className="p-4 font-mono text-sm leading-relaxed h-[320px] overflow-y-auto">
         {lines.map((l, i) => (
-          <div key={i} className={l.type === "input" ? "text-primary/90" : "text-foreground/80"}>
-            {l.text}
-          </div>
+          <div key={i} className={l.type === "input" ? "text-primary/90" : "text-foreground/80"}>{l.text}</div>
         ))}
-
         {mode === "active" && (
           <div className="flex items-center">
             <span className="text-primary shrink-0">{PROMPT}&nbsp;</span>
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={onKey}
-              className="flex-1 bg-transparent border-none outline-none text-foreground font-mono text-sm caret-primary"
-              autoFocus
-              spellCheck={false}
-            />
+            <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={onKey}
+              className="flex-1 bg-transparent border-none outline-none text-foreground font-mono text-sm caret-primary" autoFocus spellCheck={false} />
           </div>
         )}
-
         {mode === "idle" && (
           <div className="flex items-center gap-1.5">
             <span className="text-primary">{PROMPT}&nbsp;</span>
