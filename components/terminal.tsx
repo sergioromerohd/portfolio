@@ -86,19 +86,22 @@ export function Terminal() {
 
   // typewriter
   useEffect(() => {
-    if (mode !== "typing") return
+    let active = true
+    let charTimer: number | undefined
+    let lineTimer: number | undefined
     let idx = 0
 
     const typeLine = () => {
-      if (idx >= INTRO.length) {
-        setMode("idle")
+      if (!active || idx >= INTRO.length) {
+        if (active) setMode("idle")
         return
       }
       const line = INTRO[idx]
       const visible = line.type === "input" ? `${PROMPT} ${line.text}` : line.text
 
       let i = 0
-      const charInterval = setInterval(() => {
+      const tick = () => {
+        if (!active) return
         setLines((prev) => {
           const copy = [...prev]
           copy[idx] = { type: line.type, text: visible.slice(0, i + 1) }
@@ -106,15 +109,23 @@ export function Terminal() {
         })
         i++
         if (i >= visible.length) {
-          clearInterval(charInterval)
           idx++
           const delay = line.type === "input" ? 550 : 160
-          setTimeout(typeLine, delay)
+          lineTimer = window.setTimeout(typeLine, delay)
+        } else {
+          charTimer = window.setTimeout(tick, 18)
         }
-      }, 18)
+      }
+      tick()
     }
 
     typeLine()
+
+    return () => {
+      active = false
+      if (charTimer) clearTimeout(charTimer)
+      if (lineTimer) clearTimeout(lineTimer)
+    }
   }, [])
 
   // activate on click
