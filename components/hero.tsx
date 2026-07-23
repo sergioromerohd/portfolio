@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
 import { Terminal } from "@/components/terminal"
@@ -73,9 +74,27 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right: terminal */}
-        <div className="animate-fade-up [animation-delay:200ms] opacity-0">
+        {/* Right: bento (terminal + photo) */}
+        <div className="grid gap-4 animate-fade-up [animation-delay:200ms] opacity-0">
           <Terminal />
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-1 relative aspect-square rounded-lg border border-border overflow-hidden bg-card">
+              <Image
+                src="/SergioRomero.jpg"
+                alt="Sergio Romero"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 33vw, 200px"
+                priority
+              />
+            </div>
+            <div className="col-span-2 flex flex-col justify-center rounded-lg border border-border bg-card p-4">
+              <p className="text-sm text-muted-foreground"> ubicacion </p>
+              <p className="text-sm font-mono">{siteConfig.location}</p>
+              <p className="text-sm text-muted-foreground mt-3"> rol </p>
+              <p className="text-sm font-mono">Full Stack Developer</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

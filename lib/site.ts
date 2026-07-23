@@ -1,5 +1,5 @@
 // Single source of truth para datos del sitio.
-// Si cambia algo de tu info, edita aquí y se propaga.
+// Si cambia algo de tu info, edita aqui y se propaga.
 
 export const siteConfig = {
   name: "Sergio Romero",
@@ -14,11 +14,11 @@ export const siteConfig = {
   whatsapp: "34696589554",
   location: "Madrid, España",
   github: "https://github.com/sergioromerohd",
-  linkedin: "https://www.linkedin.com/in/sergioromerohd",
+  linkedin: "https://www.linkedin.com/in/sergioromerohd/",
   cv: "/cv.pdf",
   social: [
     { name: "GitHub", url: "https://github.com/sergioromerohd", handle: "@sergioromerohd" },
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/sergioromerohd", handle: "in/sergioromerohd" },
+    { name: "LinkedIn", url: "https://www.linkedin.com/in/sergioromerohd/", handle: "in/sergioromerohd" },
     { name: "Email", url: "mailto:sergio.romero.hombre@gmail.com", handle: "sergio.romero.hombre@gmail.com" },
     { name: "WhatsApp", url: "https://wa.me/34696589554", handle: "+34 696 58 95 54" },
   ],
@@ -26,10 +26,10 @@ export const siteConfig = {
 
 export const stack = {
   languages: ["TypeScript", "JavaScript", "Python", "SQL"],
-  frontend: ["Next.js 15", "React 19", "Tailwind CSS", "Framer Motion"],
-  backend: ["Node.js", "Express", "FastAPI", "PostgreSQL", "MongoDB", "Redis"],
-  infra: ["Docker", "Nginx Proxy Manager", "GitHub Actions", "Linux"],
-  tools: ["Git", "pnpm", "Playwright", "Vitest"],
+  frontend: ["Next.js", "React", "React Native", "Tailwind CSS"],
+  backend: ["Node.js", "Express", "FastAPI", "PostgreSQL", "MongoDB", "MQTT", "Redis"],
+  infra: ["Docker", "Nginx Proxy Manager", "Linux", "GitHub Actions"],
+  tools: ["Git", "FlutterFlow", "Supabase", "Playwright"],
 } as const
 
 export type Stack = typeof stack

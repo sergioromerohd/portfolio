@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { SectionHeader } from "@/components/stack"
@@ -11,15 +12,26 @@ export function Projects() {
         <SectionHeader
           tag="// 02"
           title="Proyectos"
-          subtitle="Cosas que he construido y están en producción (o lo estarán pronto)."
+          subtitle="Seleccion de trabajos recientes. La mayoria son productos en produccion, no demos."
         />
 
         <div className="grid md:grid-cols-2 gap-4">
           {projects.map((p) => (
             <Card
               key={p.title}
-              className="bg-card border-border hover:border-primary/40 transition-colors group"
+              className="bg-card border-border hover:border-primary/40 transition-colors group overflow-hidden"
             >
+              {p.image && (
+                <div className="relative h-48 border-b border-border overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.title}
+                    fill
+                    className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                </div>
+              )}
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
@@ -30,12 +42,15 @@ export function Projects() {
                       {p.status === "wip" && (
                         <span className="chip text-[10px]">wip</span>
                       )}
+                      {p.status === "paused" && (
+                        <span className="chip text-[10px]">paused</span>
+                      )}
                     </div>
                     <p className="text-sm text-muted-foreground">
                       {p.tagline}
                     </p>
                   </div>
-                  {p.url && (
+                  {p.url && p.url !== "#" && (
                     <Link
                       href={p.url}
                       target="_blank"

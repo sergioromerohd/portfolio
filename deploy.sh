@@ -8,28 +8,23 @@ touch "$LOG" 2>/dev/null || LOG=/tmp/portfolio-deploy.log
 touch "$LOG"
 exec >> "$LOG" 2>&1
 
-cd /var/lib/casaos/apps/sparkling_felix
+APP=/var/lib/casaos/apps/sparkling_felix
+cd "$APP"
 echo "--- $(date -Iseconds) deploy check ---"
 
-# fetch con branch explícito y forzar actualización
-if ! git fetch origin main 2>&1; then
-  echo "ERROR: git fetch failed"
+# pull (fast-forward o rebase). Si no hay red, falla limpio.
+if ! git pull --rebase --autostash origin main 2>&1; then
+  echo "ERROR: git pull failed"
   exit 1
 fi
-LOCAL=$(git rev-parse HEAD)
-REMOTE=$(git rev-parse origin/main)
-echo "local: $LOCAL"
-echo "remote: $REMOTE"
+echo "HEAD: $(git rev-parse HEAD)"
 
-if [ "$LOCAL" = "$REMOTE" ]; then
-  echo "no changes"
-  exit 0
-fi
-
-echo "new commit detected, redeploy"
-git reset --hard origin/main --quiet
-docker compose -f /var/lib/casaos/apps/sparkling_felix/docker-compose.yml build main_app
-docker compose -f /var/lib/casaos/apps/sparkling_felix/docker-compose.yml up -d main_app
+# rebuild SIEMPRE: --pull=false para usar cache local,
+# pero rebuild garantiza que la imagen refleja el working tree.
+# Coste: ~30-60s con cache caliente, ~3min cold.
+echo "building..."
+docker compose -f "$APP/docker-compose.yml" build main_app 2>&1
+echo "restarting..."
+docker compose -f "$APP/docker-compose.yml" up -d main_app 2>&1
 docker image prune -f --filter "until=24h" >/dev/null 2>&1 || true
-echo "deploy OK"
-
+echo "OK"

@@ -1,25 +1,25 @@
 import type { Metadata } from "next"
-import { Hero } from "@/components/hero"
-import { Stack } from "@/components/stack"
-import { Projects } from "@/components/projects"
-import { Experience } from "@/components/experience"
+import { About } from "@/components/about"
 import { Contact } from "@/components/contact"
+import { Experience } from "@/components/experience"
 import { Footer } from "@/components/footer"
-import { Navigation } from "@/components/navigation"
+import { Hero } from "@/components/hero"
+import { Projects } from "@/components/projects"
+import { Stack } from "@/components/stack"
 import { siteConfig } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
-  alternates: { canonical: siteConfig.url },
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage, width: 1200, height: 630 }],
     locale: "es_ES",
     type: "website",
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
@@ -32,14 +32,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Navigation />
-      <main className="min-h-screen">
-        <Hero />
-        <Stack />
-        <Projects />
-        <Experience />
-        <Contact />
-      </main>
+      <Hero />
+      <About />
+      <Stack />
+      <Projects />
+      <Experience />
+      <Contact />
       <Footer />
     </>
   )

@@ -15,7 +15,7 @@ export function Stack() {
         <SectionHeader
           tag="// 01"
           title="Stack"
-          subtitle="Las herramientas que uso a diario. Pragmatismo > hype."
+          subtitle="Herramientas que uso a diario. Pragmatismo > hype."
         />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-lg overflow-hidden border border-border">
