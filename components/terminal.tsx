@@ -51,6 +51,11 @@ export function Terminal() {
   const [interactive, setInteractive] = useState(false)
   const [input, setInput] = useState("")
   const [userLines, setUserLines] = useState<{ type: string; text: string }[]>([])
+  // typewriter for command output
+  const [cmdOutput, setCmdOutput] = useState<string[]>([])
+  const [cmdIdx, setCmdIdx] = useState(0)
+  const [cmdChar, setCmdChar] = useState(0)
+  const [cmdActive, setCmdActive] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const histRef = useRef<string[]>([])
@@ -96,21 +101,47 @@ export function Terminal() {
     }
   }
 
+  // typewriter for interactive command output
+  useEffect(() => {
+    if (!cmdActive || cmdIdx >= cmdOutput.length) {
+      if (cmdActive && cmdIdx >= cmdOutput.length) setCmdActive(false)
+      return
+    }
+    const line = cmdOutput[cmdIdx]
+    if (cmdChar < line.length) {
+      const t = setTimeout(() => setCmdChar((c) => c + 1), 12)
+      return () => clearTimeout(t)
+    }
+    // line done, move to next
+    const t = setTimeout(() => { setCmdIdx((i) => i + 1); setCmdChar(0) }, 80)
+    return () => clearTimeout(t)
+  }, [cmdActive, cmdIdx, cmdChar, cmdOutput])
+
   const run = (cmd: string) => {
     const t = cmd.trim()
     if (!t) return
     histRef.current.push(t)
     histIdx.current = -1
     setUserLines((prev) => [...prev, { type: "input", text: `${PROMPT} ${t}` }])
+
     const fn = COMMANDS[t.toLowerCase()]
+    let out: string[] = []
     if (fn) {
       if (t === "clear") { setUserLines([]); setInput(""); return }
-      setUserLines((prev) => [...prev, ...fn().map((o) => ({ type: "output", text: o }))])
+      out = fn()
     } else if (t === "exit") {
-      setUserLines([]); setInteractive(false)
+      setUserLines([]); setInteractive(false); setInput(""); return
+    } else if (t === "sudo") {
+      out = ["nice try. permission denied."]
     } else {
-      setUserLines((prev) => [...prev, { type: "output", text: `zsh: command not found: ${t}` }, { type: "output", text: "prueba 'help'" }])
+      out = [`zsh: command not found: ${t}`, "prueba 'help'"]
     }
+
+    // start typewriter for output
+    setCmdOutput(out)
+    setCmdIdx(0)
+    setCmdChar(0)
+    setCmdActive(true)
     setInput("")
   }
 
@@ -168,6 +199,17 @@ export function Terminal() {
           <div key={i} className={l.type === "input" ? "text-primary/90" : "text-foreground/80"}>{l.text}</div>
         ))}
 
+        {/* Typewriter output for interactive commands */}
+        {cmdActive && cmdOutput.slice(0, cmdIdx).map((line, i) => (
+          <div key={i} className="text-foreground/80">{line}</div>
+        ))}
+        {cmdActive && cmdIdx < cmdOutput.length && (
+          <div className="text-foreground/80">
+            {cmdOutput[cmdIdx].slice(0, cmdChar)}
+            <span className="inline-block w-2 h-4 bg-primary align-middle ml-0.5 animate-caret-blink" />
+          </div>
+        )}
+
         {/* Done state */}
         {phase === "done" && !interactive && (
           <div className="flex items-center gap-1.5">
@@ -178,7 +220,7 @@ export function Terminal() {
         )}
 
         {/* Interactive input */}
-        {interactive && (
+        {interactive && !cmdActive && (
           <div className="flex items-center">
             <span className="text-primary shrink-0">{PROMPT}&nbsp;</span>
             <input ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={onKey}
