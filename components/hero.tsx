@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react"
+import { ArrowUpRight, Github, Linkedin, Mail, Sparkles } from "lucide-react"
 import { Terminal } from "@/components/terminal"
 import { siteConfig } from "@/lib/site"
 
@@ -17,8 +17,8 @@ export function Hero() {
       <div className="absolute inset-0 grid-bg opacity-40 [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,black,transparent)]" />
 
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse [animation-delay:2s]" />
 
       <div className="container relative z-10 grid lg:grid-cols-2 gap-12 items-center pt-20 pb-16">
         {/* Left: identity */}
@@ -42,7 +42,7 @@ export function Hero() {
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <Link
               href="#projects"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-all hover:shadow-[0_0_20px_-4px] hover:shadow-primary/50"
             >
               Ver proyectos
               <ArrowUpRight className="w-4 h-4" />
@@ -65,7 +65,7 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.name}
-                  className="text-muted-foreground hover:text-primary transition-colors"
+                  className="text-muted-foreground hover:text-primary transition-colors hover:scale-110"
                 >
                   <Icon className="w-5 h-5" />
                 </Link>
@@ -78,7 +78,7 @@ export function Hero() {
         <div className="grid gap-4 animate-fade-up [animation-delay:200ms] opacity-0">
           <Terminal />
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1 relative aspect-square rounded-lg border border-border overflow-hidden bg-card">
+            <div className="col-span-1 relative aspect-square rounded-lg border border-border overflow-hidden bg-card hover:border-primary/40 transition-colors">
               <Image
                 src="/SergioRomero.jpg"
                 alt="Sergio Romero"
@@ -88,11 +88,19 @@ export function Hero() {
                 priority
               />
             </div>
-            <div className="col-span-2 flex flex-col justify-center rounded-lg border border-border bg-card p-4">
-              <p className="text-sm text-muted-foreground"> ubicacion </p>
-              <p className="text-sm font-mono">{siteConfig.location}</p>
-              <p className="text-sm text-muted-foreground mt-3"> rol </p>
-              <p className="text-sm font-mono">Full Stack Developer</p>
+            <div className="col-span-2 flex flex-col justify-between rounded-lg border border-border bg-card p-5 space-y-3 hover:border-primary/40 transition-colors">
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">ubicacion</p>
+                <p className="text-sm font-mono text-foreground">{siteConfig.location}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">rol</p>
+                <p className="text-sm font-mono text-foreground">Full Stack Developer</p>
+              </div>
+              <div className="flex items-center gap-2 pt-2 border-t border-border">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <p className="text-xs text-muted-foreground">AI-assisted development</p>
+              </div>
             </div>
           </div>
         </div>

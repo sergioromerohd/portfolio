@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { SectionHeader } from "@/components/stack"
@@ -19,19 +18,8 @@ export function Projects() {
           {projects.map((p) => (
             <Card
               key={p.title}
-              className="bg-card border-border hover:border-primary/40 transition-colors group overflow-hidden"
+              className="bg-card border-border hover:border-primary/40 transition-colors group overflow-hidden hover:shadow-[0_0_40px_-12px] hover:shadow-primary/20"
             >
-              {p.image && (
-                <div className="relative h-48 border-b border-border overflow-hidden">
-                  <Image
-                    src={p.image}
-                    alt={p.title}
-                    fill
-                    className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                </div>
-              )}
               <CardContent className="p-6 space-y-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
