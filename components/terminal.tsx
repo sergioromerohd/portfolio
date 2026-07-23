@@ -93,27 +93,26 @@ export function Terminal() {
   const commandHistory = useRef<string[]>([])
   const typingRef = useRef<number | null>(null)
 
-  // build flat list of all characters to type
-  const flatChars = INTRO.flatMap((line) => {
+  // build flat list of all characters to type (stable reference)
+  const flatChars = useRef(INTRO.flatMap((line) => {
     const prefix = line.type === "input" ? PROMPT + " " : ""
     const full = prefix + line.text
     return full.split("").map((ch) => ({ ch, type: line.type }))
-  })
+  }))
 
   // typewriter effect
   useEffect(() => {
-    if (mode !== "typing") return
+    const chars = flatChars.current
     let i = 0
-    let currentLineIdx = 0
     let currentText = ""
 
     const tick = () => {
-      if (i >= flatChars.length) {
+      if (i >= chars.length) {
         setMode("idle")
         return
       }
 
-      const { ch, type } = flatChars[i]
+      const { ch, type } = chars[i]
       currentText += ch
 
       // figure out which INTRO line we're on
