@@ -1,0 +1,74 @@
+# ⚠️  Backup del compose original
+# ⚠️  Backup creado en 2026-07-23 antes de la migración a ghcr.io + Watchtower
+# ⚠️  Si algo va mal: cp /var/lib/casaos/apps/sparkling_felix/docker-compose.yml.bak /var/lib/casaos/apps/sparkling_felix/docker-compose.yml
+
+name: sparkling_felix
+services:
+    # ---------- Portfolio ----------
+    main_app:
+        cpu_shares: 10
+        deploy:
+            resources:
+                limits:
+                    memory: "268435456"
+        # Imagen migrada de Docker Hub a GitHub Container Registry
+        # Push desde GitHub Actions (.github/workflows/cd.yml)
+        image: ghcr.io/sergioromerohd/portfolio:latest
+        labels:
+            # Label crítica: Watchtower solo actualiza containers con esto
+            com.centurylinklabs.watchtower.enable: "true"
+            # Watchtower label: monitor explícito por nombre (defensa en profundidad)
+            # com.centurylinklabs.watchtower.monitor-only: "false"
+            icon: https://icon.casaos.io/main/all/portfolio-app.png
+        network_mode: bridge
+        ports:
+            - target: 3033
+              published: "3000"
+              protocol: tcp
+        restart: unless-stopped
+        healthcheck:
+            test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3033/"]
+            interval: 30s
+            timeout: 5s
+            start_period: 20s
+            retries: 3
+
+    # ---------- Watchtower (auto-pull ghcr.io y recreate) ----------
+    watchtower:
+        image: containrrr/watchtower:latest
+        container_name: watchtower
+        restart: unless-stopped
+        # network_mode: host es la forma más simple en CasaOS; alternativa: red bridge
+        # con PORT_VARIABLE si NPM ya está consumiendo :80. Aquí bridge está bien
+        # porque Watchtower no expone puertos — solo vigila el docker socket.
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+        environment:
+            # Vigila solo containers con label watchtower.enable=true
+            - WATCHTOWER_LABEL_ENABLE=true
+            # Vigila también containers SIN label (defensivo: si la label se pierde,
+            # seguimos actualizando el portfolio)
+            - WATCHTOWER_INCLUDE_STOPPED=false
+            - WATCHTOWER_CLEANUP=true
+            - WATCHTOWER_POLL_INTERVAL=300
+            # Limpia imágenes viejas (mantiene solo latest) — evita que el disco se llene
+            - WATCHTOWER_REMOVE_VOLUMES=false
+            - TZ=Europe/Madrid
+        # logs a stdout/stderr para verlos con `docker logs watchtower`
+
+networks:
+    default:
+        name: sparkling_felix_default
+
+x-casaos:
+    author: self
+    category: self
+    hostname: ""
+    icon: https://icon.casaos.io/main/all/portfolio-app.png
+    index: /
+    is_uncontrolled: false
+    port_map: ""
+    scheme: http
+    store_app_id: sparkling_felix
+    title:
+        custom: portfolio

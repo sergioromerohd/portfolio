@@ -4,182 +4,125 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262.1 83.3% 57.8%;
+    /* Only dark — light mode would dilute the dev/terminal aesthetic */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 96%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 96%;
+
+    --muted: 222 30% 14%;
+    --muted-foreground: 215 20% 65%;
+
+    --primary: 175 80% 56%;          /* teal terminal */
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 222 30% 14%;
+    --secondary-foreground: 210 40% 96%;
+
+    --accent: 175 80% 56%;
+    --accent-foreground: 222 47% 6%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 175 80% 56%;
+
     --radius: 0.5rem;
-    
-    /* Professional color palette */
-    --primary-gold: #C9A876;
-    --primary-gold-hover: #B8975F;
-    --accent-blue: #1E40AF;
-    --accent-blue-light: #3B82F6;
-    --text-primary: #1F2937;
-    --text-secondary: #6B7280;
   }
 
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 262.1 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 262.1 83.3% 57.8%;
-    
-    /* Dark theme colors */
-    --primary-gold: #D4AF37;
-    --primary-gold-hover: #C19A00;
-    --accent-blue: #60A5FA;
-    --accent-blue-light: #93C5FD;
-    --text-primary: #F9FAFB;
-    --text-secondary: #D1D5DB;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
+
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "ss01", "cv01", "cv11";
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-foreground;
+  }
+
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--border));
   }
 }
 
 @layer components {
-  /* Professional gradient backgrounds */
-  .gradient-primary {
-    background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-hover) 100%);
+  /* Caret parpadeante para bloques tipo terminal */
+  .caret::after {
+    content: "▋";
+    @apply ml-0.5 text-primary;
+    animation: caret-blink 1s step-end infinite;
   }
-  
-  .gradient-accent {
-    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%);
+
+  /* Línea de tiempo / timeline con border izq */
+  .timeline-item {
+    @apply relative pl-6 pb-8 border-l border-border;
   }
-  
-  /* Advanced animations */
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
+  .timeline-item::before {
+    content: "";
+    @apply absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-primary;
   }
-  
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+
+  /* Chip / tag estilo dev */
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-mono
+           bg-muted text-muted-foreground rounded-md
+           border border-border hover:border-primary/40 transition-colors;
   }
-  
-  .animate-slide-up {
-    animation: slideUp 0.6s ease-out;
+
+  /* Bento card base */
+  .bento {
+    @apply relative overflow-hidden rounded-lg border border-border bg-card
+           p-6 transition-colors hover:border-primary/30;
   }
-  
-  .animate-scale-in {
-    animation: scaleIn 0.5s ease-out;
+
+  /* Bloque de código inline */
+  .kbd {
+    @apply inline-flex items-center px-1.5 py-0.5 text-xs font-mono
+           bg-muted text-foreground rounded border border-border;
   }
-  
-  /* Particle effect background */
-  .particles-bg {
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(201, 168, 118, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(30, 64, 175, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(201, 168, 118, 0.08) 0%, transparent 50%);
+
+  /* Gradient text sutil para acentos */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-emerald-300 bg-clip-text text-transparent;
   }
-  
-  /* Glass morphism effect */
-  .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .dark .glass {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Advanced hover effects */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dark .hover-lift:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+
+  /* Líneas de grid sutiles para fondos hero */
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 20px rgba(201, 168, 118, 0.5); }
-  100% { box-shadow: 0 0 30px rgba(201, 168, 118, 0.8); }
-}
-
-@keyframes slideUp {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes scaleIn {
-  0% { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary-gold);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-gold-hover);
-}
-
-/* Selection styling */
-::selection {
-  background: var(--primary-gold);
-  color: white;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 }
