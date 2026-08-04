@@ -6,7 +6,7 @@ export const siteConfig = {
   handle: "sergioromerohd",
   title: "Sergio Romero — Full Stack Developer",
   description:
-    "Full Stack Developer en Madrid. Construyo productos con TypeScript, Next.js, Node y cloud. Disponible para proyectos freelance y colaboraciones.",
+    "Desarrollador full stack, IoT y DevSecOps. Construyo productos completos: desde la interfaz y la lógica de negocio hasta los datos, los despliegues y el mantenimiento en producción.",
   url: "https://cv.sergioromerohd.com",
   ogImage: "/og.png",
   email: "sergio.romero.hombre@gmail.com",

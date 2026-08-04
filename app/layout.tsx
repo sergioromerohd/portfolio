@@ -21,14 +21,16 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://cv.sergioromerohd.com"),
   title: {
-    default: "Sergio Romero — Full Stack Developer",
+    default: "Sergio Romero — Full Stack, IoT y DevSecOps",
     template: "%s — Sergio Romero",
   },
   description:
-    "Full Stack Developer especializado en TypeScript, Next.js, Node y arquitecturas cloud. Construyo productos que la gente usa.",
+    "Portfolio de Sergio Romero: desarrollo full stack, IoT y DevSecOps. Productos reales, despliegues y experiencia construyendo software de extremo a extremo.",
   keywords: [
     "Sergio Romero",
     "Full Stack Developer",
+    "IoT Developer",
+    "DevSecOps",
     "Next.js",
     "TypeScript",
     "Node.js",
@@ -42,16 +44,16 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: "https://cv.sergioromerohd.com",
     siteName: "Sergio Romero",
-    title: "Sergio Romero — Full Stack Developer",
+    title: "Sergio Romero — Full Stack, IoT y DevSecOps",
     description:
-      "Full Stack Developer especializado en TypeScript, Next.js, Node y arquitecturas cloud.",
+      "Desarrollo full stack, IoT y DevSecOps. Productos reales, despliegues y software construido de extremo a extremo.",
   },
   twitter: {
     card: "summary_large_image",
     creator: "@sergioromerohd",
-    title: "Sergio Romero — Full Stack Developer",
+    title: "Sergio Romero — Full Stack, IoT y DevSecOps",
     description:
-      "Full Stack Developer especializado en TypeScript, Next.js, Node y arquitecturas cloud.",
+      "Desarrollo full stack, IoT y DevSecOps. Productos reales, despliegues y software construido de extremo a extremo.",
   },
   robots: {
     index: true,

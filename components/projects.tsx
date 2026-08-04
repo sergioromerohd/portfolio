@@ -25,7 +25,7 @@ export function Projects() {
         <SectionHeader
           tag="// 02"
           title="Proyectos"
-          subtitle="Seleccion de trabajos recientes. La mayoria son productos en produccion, no demos."
+          subtitle="Productos reales, proyectos propios y algunas cosas que sigo construyendo."
         />
 
         {/* Tabs */}
@@ -84,6 +84,13 @@ export function Projects() {
               <p className="text-sm text-foreground/90 leading-relaxed">
                 {p.description}
               </p>
+
+              {(p.role || p.context) && (
+                <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-mono text-muted-foreground">
+                  {p.role && <span>{p.role}</span>}
+                  {p.context && <span className="text-primary/80">{p.context}</span>}
+                </div>
+              )}
 
               <div className="flex flex-wrap gap-1.5">
                 {p.tech.map((t) => (

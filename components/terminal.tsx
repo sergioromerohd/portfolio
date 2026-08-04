@@ -31,11 +31,9 @@ const COMMANDS: Record<string, () => string[]> = {
   projects: () => [
     "actua 2.0        [prod]  sonometria y actas",
     "irma             [prod]  iot vibraciones",
-    "cia              [prod]  cursos acusticos",
-    "actua landing    [prod]  landing + faq",
-    "irma app         [wip]   monitoreo movil",
+    "orwee            [done]  frontend y producto",
+    "finzen           [wip]   finanzas personales",
     "meta ads rep.    [paused] ia anti-fraude",
-    "finzen           [wip]   agregador financiero",
   ],
   contact: () => [`email ${siteConfig.email}`, `whatsapp ${siteConfig.phone}`, `linkedin ${siteConfig.linkedin}`],
   about: () => ["sergio romero, full stack developer.", "apasionado por la tecnologia.", "cada error te hace mas fuerte."],

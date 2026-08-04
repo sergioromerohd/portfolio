@@ -6,6 +6,8 @@ export type Project = {
   url?: string
   status?: "shipped" | "wip" | "paused"
   image?: string
+  role?: string
+  context?: string
 }
 
 const ABOUT = "https://about.dbblab.es"
@@ -15,27 +17,31 @@ export const projects: Project[] = [
     title: "ACTUA 2.0",
     tagline: "Analisis de sonometria y actas",
     description:
-      "Plataforma web para analisis de sonometria y generacion de actas tecnicas/policiales automatizadas. Usada por tecnicos y fuerzas del orden.",
+      "Producto completo para análisis de sonometría y generación de actas técnicas y policiales automatizadas. Lo desarrollé de principio a fin: diseño, aplicación, lógica, despliegue y mantenimiento. Se utiliza en contextos profesionales, policiales y periciales.",
     tech: ["Next.js", "TypeScript", "Node.js", "MongoDB"],
     url: "https://actua2.dbblab.es/",
     status: "shipped",
     image: "/actua.png",
+    role: "Desarrollo integral · Full stack · Producto en producción",
+    context: "DBBasico",
   },
   {
     title: "IRMA",
     tagline: "Monitorizacion IoT de vibraciones",
     description:
-      "Landing + recursos del sistema IRMA: monitorizacion inteligente de vibraciones industriales en tiempo real, con dashboard analitico y alertas.",
-    tech: ["Next.js", "React", "IoT", "MQTT"],
+      "Sistema IoT para monitorización inteligente de vibraciones industriales en tiempo real. Incluye aplicación móvil, dashboard, históricos, visualización de datos y alertas. He construido la herramienta completa y su despliegue.",
+    tech: ["React Native", "Next.js", "Node.js", "MongoDB", "MQTT", "IoT"],
     url: `${ABOUT}/irma`,
     status: "shipped",
     image: "/setablancaSF.png",
+    role: "Desarrollo integral · IoT · Producto en producción",
+    context: "DBBasico",
   },
   {
     title: "ACTUA 2.0 Landing",
     tagline: "Landing y FAQ del producto",
     description:
-      "Landing comercial y recursos tecnicos (FAQ/Tutorial) de ACTUA 2.0 para uso policial y pericial.",
+      "Landing comercial y recursos técnicos de ACTUA 2.0, con FAQ y tutoriales para explicar un producto especializado a técnicos, cuerpos policiales y perfiles periciales.",
     tech: ["Next.js", "React"],
     url: `${ABOUT}/actua`,
     status: "shipped",
@@ -45,7 +51,7 @@ export const projects: Project[] = [
     title: "CIA",
     tagline: "Cursos de inspecciones acusticas",
     description:
-      "Landing de CIA con informacion de niveles, metodologia y FAQ. Producto de formacion vinculado a DBBasico.",
+      "Landing de CIA con información de niveles, metodología y FAQ. Producto de formación vinculado a DBBasico.",
     tech: ["Next.js", "React"],
     url: `${ABOUT}/cia`,
     status: "shipped",
@@ -55,7 +61,7 @@ export const projects: Project[] = [
     title: "Irma APP",
     tagline: "Monitoreo IoT en tiempo real",
     description:
-      "Aplicacion movil para medicion de vibraciones en tiempo real e historico. Dashboard analitico, visualizacion de datos y alertas inteligentes.",
+      "Aplicación móvil para medición de vibraciones en tiempo real e histórico, conectada al ecosistema IoT de IRMA. Incluye dashboard analítico, visualización de datos y alertas inteligentes.",
     tech: ["React Native", "Node.js", "MongoDB", "MQTT"],
     url: "https://dbbasico.es/",
     status: "wip",

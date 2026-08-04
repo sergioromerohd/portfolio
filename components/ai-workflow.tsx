@@ -7,29 +7,29 @@ export function AIWorkflow() {
       <div className="container">
         <SectionHeader
           tag="// 05"
-          title="Desarrollo con IA"
-          subtitle="Adaptado al desarrollo moderno. La IA no es el futuro, es el presente."
+          title="Cómo uso la IA"
+          subtitle="La uso como herramienta de trabajo, no como sustituto del criterio técnico."
         />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             {
-              title: "Harness Engineering",
+              title: "Contexto antes que prompts",
               description:
-                "Planificacion y desarrollo de software asistido por IA. Prompt engineering, context management y validacion iterativa.",
-              tags: ["Claude", "ChatGPT", "Copilot"],
+                "Antes de pedir código, intento entender el problema, dividirlo y dejar claras las restricciones. La IA ayuda más cuando el contexto está bien preparado.",
+              tags: ["Contexto", "Planificación", "Iteración"],
             },
             {
-              title: "Prototipado Rapido",
+              title: "Prototipos que se pueden probar",
               description:
-                "Generacion de MVPs y pruebas de concepto en horas, no semanas. Iteracion acelerada con feedback inmediato.",
-              tags: ["v0.dev", "Bolt.new", "Cursor"],
+                "La utilizo para explorar una idea y llegar antes a una primera versión. Después toca probarla, simplificarla y asumir las decisiones que el código necesita.",
+              tags: ["MVP", "Feedback", "Producto"],
             },
             {
-              title: "Code Review & Refactor",
+              title: "Revisión humana",
               description:
-                "Uso de IA para detectar anti-patrones, sugerir optimizaciones y mantener codigo limpio a escala.",
-              tags: ["Static Analysis", "AI Linting"],
+                "Puede señalar errores, proponer alternativas o ayudar a leer una base de código. La responsabilidad de revisar, probar y decidir sigue siendo mía.",
+              tags: ["Tests", "Revisión", "Criterio"],
             },
           ].map((item) => (
             <div

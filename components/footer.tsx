@@ -13,7 +13,7 @@ export function Footer() {
               <span className="text-muted-foreground">$</span> sergio<span className="text-muted-foreground">.dev</span>
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Full Stack Developer en Madrid. Construyendo productos que la gente usa.
+              Desarrollador full stack, IoT y DevSecOps. Me gusta construir cosas útiles y entender cómo funcionan por dentro.
             </p>
             <Link
               href="#contact"
